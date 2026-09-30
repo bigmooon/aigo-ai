@@ -75,7 +75,7 @@ a1b2c3d	0.512821	0.401282	0.500000	1.000000	keep	baseline
 | 실험 브랜치 | `harness/<tag>` (예: `harness/oct1`). 현재 작업 브랜치에서 만들고, **로컬 전용**이라 push하지 않는다 |
 | 실험 커밋 | `exp: <무엇을 바꿨는지>` 한 줄 (예: `exp: 판례 본문 청크 제외`). discard되면 `git reset`으로 사라진다 |
 | 결과 반영 | 실험이 끝나면 keep된 변경만 모아 `feat/…` 브랜치에 Conventional Commits로 커밋하고, PR 본문에 `results.tsv` 요약을 붙인다 |
-| push | **fork(origin)에만** push한다. upstream에 직접 push하거나 force push하지 않는다 |
+| push · PR | **fork(origin)에만** push하고, PR도 fork `main`으로 올린다. 팀 저장소(upstream)는 fetch 전용이며 force push하지 않는다 |
 | 보안 | 코퍼스 캐시·API 응답에는 인증키가 들어 있으므로 저장소 밖(`~/.cache/aigo-harness`)에 둔다. 저장소에 넣을 때는 인증키를 제거한다 |
 
 ## 단순성 기준
