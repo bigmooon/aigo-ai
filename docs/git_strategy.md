@@ -15,6 +15,27 @@
 
 - 소문자로 작성
 - feature에는 현재 자신이 하고 있는 작업을 간단하게 작성
+- feature는 kebab-case(단어를 `-`로 연결), 브랜치명 전체 **25자 이내**
+- 예: `feat/rag-redesign`, `fix/oc-leak`, `ci/pr-check`
+
+---
+
+## Fork 작업 흐름 (권장)
+
+upstream(`aigo-youth/aigo-ai`)에는 직접 push하지 않고, **개인 fork에만 push**한 뒤 fork → upstream으로 PR을 올립니다.
+
+```bash
+# 최초 1회: fork를 origin, 팀 저장소를 upstream으로 등록
+git remote add upstream https://github.com/aigo-youth/aigo-ai.git
+
+# 작업 시작: upstream main 기준으로 브랜치 생성
+git fetch upstream
+git checkout -b fix/oc-leak upstream/main
+
+# 작업 후: fork에만 push, PR은 upstream main으로
+git push -u origin fix/oc-leak
+gh pr create --repo aigo-youth/aigo-ai --base main --head <github-id>:fix/oc-leak
+```
 
 ---
 
@@ -124,6 +145,9 @@ git pull origin main
 | refactor | 기능 변경 없이 코드 구조 개선 |
 | chore    | 패키지 설치, 설정 파일 수정   |
 | style    | 코드 포맷, 린트 수정          |
+| perf     | 성능 개선                     |
+| test     | 테스트 추가·수정              |
+| ci       | CI 워크플로 수정              |
 
 ### 커밋 메시지 작성 예시
 
@@ -136,6 +160,8 @@ docs: README에 설치 가이드 추가
 
 - 커밋 메시지는 말머리(type) 제외 한글로 작성
 - 제목은 50자 이내로 간결하게
+- 영향 범위를 밝히고 싶으면 scope를 붙입니다: `fix(chat): ...`, `feat(rag): ...` ([Conventional Commits](https://www.conventionalcommits.org/ko/v1.0.0/))
+- 본문이 필요하면 한 줄을 비우고 "무엇을, 왜" 바꿨는지 적습니다
 
 ---
 
@@ -143,9 +169,20 @@ docs: README에 설치 가이드 추가
 
 ### PR 생성 규칙
 
-1. **제목 형식**: 커밋 컨벤션과 동일 (`feat:`, `fix:` 등)
+1. **제목 형식**: 커밋 컨벤션과 동일 (`feat:`, `fix(chat):` 등, 설명 50자 이내)
 2. **Reviewers**: 팀원 최소 1명 이상의 리뷰 필수
 3. **Merge 조건**: 최소 1명 이상의 Approve 필요
+
+### 자동 검사 (`.github/workflows/pr-check.yml`)
+
+PR을 열거나 수정하면 아래 규칙을 자동으로 확인하고, 어기면 PR 체크가 실패합니다.
+
+| 검사 | 규칙 |
+|---|---|
+| 브랜치명 | `{type}/{kebab-case}`, 25자 이내 |
+| PR 제목 | `{type}(scope): 설명`, 설명 50자 이내 |
+| `.env` | `.env.example` 외의 `.env*` 파일이 커밋되지 않음 |
+| 인증키 | PR에서 추가된 줄에 법령 API 인증키(`OC=값`)가 없음 |
 
 ### Merge 후 할 일
 
@@ -163,7 +200,7 @@ docs: README에 설치 가이드 추가
 ❌ force push (git push -f) 사용
 ❌ 대용량 파일 커밋 (100MB 이상)
 ❌ .env 파일 커밋
-❌ API 키, 비밀번호 하드코딩
+❌ API 키, 비밀번호 하드코딩 (API 응답의 상세링크에도 인증키가 들어 있으니 저장 전에 제거)
 ❌ Merge 후 브랜치 방치
 ```
 

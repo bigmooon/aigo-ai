@@ -1,0 +1,53 @@
+name: PR check
+
+# 팀 규칙(docs/git_strategy.md)을 PR마다 자동으로 확인한다.
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  conventions:
+    name: 브랜치명 · PR 제목
+    runs-on: ubuntu-latest
+    env:
+      BRANCH: ${{ github.head_ref }}
+      TITLE: ${{ github.event.pull_request.title }}
+      TYPES: feat|fix|docs|refactor|chore|style|perf|test|ci
+    steps:
+      - name: 브랜치명 — {type}/{kebab-case}, 25자 이내
+        run: |
+          if [[ ! "$BRANCH" =~ ^($TYPES)/[a-z0-9]+(-[a-z0-9]+)*$ ]] || (( ${#BRANCH} > 25 )); then
+            echo "::error::브랜치명 '$BRANCH' 이 규칙에 맞지 않습니다. 예: feat/rag-redesign"
+            exit 1
+          fi
+      - name: PR 제목 — Conventional Commits, 설명 50자 이내
+        run: |
+          if [[ ! "$TITLE" =~ ^($TYPES)(\([a-z0-9-]+\))?:\ (.+)$ ]] || (( ${#BASH_REMATCH[3]} > 50 )); then
+            echo "::error::PR 제목 '$TITLE' 이 규칙에 맞지 않습니다. 예: fix(chat): 인용 링크를 퍼머링크로 교체"
+            exit 1
+          fi
+
+  secrets:
+    name: 인증키 · .env 커밋 여부
+    runs-on: ubuntu-latest
+    env:
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: .env 파일이 추적되지 않는다
+        run: |
+          if git ls-files | grep -E '(^|/)\.env(\..+)?$' | grep -v '\.env\.example$'; then
+            echo "::error::.env 파일이 커밋되었습니다."
+            exit 1
+          fi
+      - name: 추가된 줄에 법령 API 인증키(OC 값)가 없다
+        run: |
+          if git diff -U0 "$BASE_SHA"...HEAD -- . ':!.env.example' | grep '^+' | grep -E 'OC=[A-Za-z0-9][A-Za-z0-9_.-]*'; then
+            echo "::error::법령 API 인증키로 보이는 값이 있습니다. 링크는 퍼머링크를 쓰고 키는 .env 에만 둡니다."
+            exit 1
+          fi
