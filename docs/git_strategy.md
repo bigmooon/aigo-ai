@@ -20,21 +20,27 @@
 
 ---
 
-## Fork 작업 흐름 (권장)
+## Fork 작업 흐름 (개인 fork 전용)
 
-upstream(`aigo-youth/aigo-ai`)에는 직접 push하지 않고, **개인 fork에만 push**한 뒤 fork → upstream으로 PR을 올립니다.
+팀 저장소(`aigo-youth/aigo-ai`)에는 push하지도, PR을 올리지도 않습니다. 모든 작업은 **개인 fork 안에서** 브랜치 → PR → fork `main` 머지로 끝냅니다.
+팀 저장소는 최신 코드를 받아오는 용도(fetch)로만 씁니다.
 
 ```bash
-# 최초 1회: fork를 origin, 팀 저장소를 upstream으로 등록
+# 최초 1회: 팀 저장소를 upstream으로 등록하고 push를 막는다
 git remote add upstream https://github.com/aigo-youth/aigo-ai.git
+git remote set-url --push upstream no_push
+gh repo set-default <github-id>/aigo-ai      # gh 명령의 기본 대상을 fork로
 
-# 작업 시작: upstream main 기준으로 브랜치 생성
-git fetch upstream
-git checkout -b fix/oc-leak upstream/main
+# 작업 시작: fork main 기준으로 브랜치 생성
+git checkout main && git pull origin main
+git checkout -b fix/oc-leak
 
-# 작업 후: fork에만 push, PR은 upstream main으로
+# 작업 후: fork에 push하고, fork main으로 PR
 git push -u origin fix/oc-leak
-gh pr create --repo aigo-youth/aigo-ai --base main --head <github-id>:fix/oc-leak
+gh pr create --base main
+
+# (필요할 때만) 팀 저장소의 변경을 fork main에 반영
+git fetch upstream && git checkout main && git merge upstream/main && git push origin main
 ```
 
 ---
