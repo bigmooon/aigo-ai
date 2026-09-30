@@ -35,3 +35,6 @@ db/
 .vscode
 
 SKN24_3rd_6team.git
+# Harness (autoresearch-style) run artifacts
+harness/results.tsv
+harness/run.log

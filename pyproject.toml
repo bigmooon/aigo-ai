@@ -36,6 +36,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "ipykernel>=7.4.0",
+    "nbconvert>=7.17.1",
     "pytest>=8.0.0",
     "pytest-cov>=6.0.0",
 ]

@@ -1,0 +1,101 @@
+# RAG 재설계 계획 (AI 파트)
+
+> 작성일: 2026-09-30 · 브랜치: `feat/rag-redesign`
+> 기존 파이프라인(KURE-v1 + EXAONE-3.5-7.8B, LangGraph 게이트 다수)의 응답 품질이 불만족스러워, **평가셋부터 다시 설계**한다.
+
+## 1. 목표
+
+사회초년생이 임대차 관련 질문(특약, 분쟁 사례, 집주인과의 갈등, 용어, 절차)을 하면
+국가법령정보 공동활용 API(+ 필요한 외부 공공 소스)의 문서를 **근거로** 안내하는 챗봇.
+
+**제약**
+- 변호사법 · 공인중개사법 위반 소지가 없도록 **확답(법률 판단·결론 단정)을 하지 않는다.**
+  근거 조문/판례를 제시하고, 판단은 조건부로 안내하며, 전문가 상담을 권고한다.
+- 포트폴리오용: 모든 결정 근거를 노트북 안에 리포트 형태로 남긴다(논문 인용 가능).
+- GPU 작업은 RunPod에서 수행한다.
+- 막히면 구현 전에 방법론부터 조사한다.
+
+## 2. 진행 원칙
+
+1. **Eval-first** — 평가셋과 지표를 먼저 고정하고, 모든 결정을 같은 기준으로 비교한다.
+2. **변수 분리** — 검색(데이터·청킹·임베딩)을 LLM 없이 먼저 평가하고, LLM은 동일한 검색 결과를 넣어 비교한다.
+3. **Simple first** — 한 줄짜리 RAG 체인(검색 → 생성)을 기준선으로 삼고, 평가에서 필요가 입증된 노드만 LangGraph에 추가한다.
+   (교훈: 기존 파이프라인은 게이트를 먼저 늘려 정상 질문을 막는 오탐이 생겼다. PR #17 참고)
+4. **서비스 코드(`app/`)는 노트북에서 구성이 확정된 뒤에 반영한다.**
+5. **하네스로 반복 실험** — 4단계 이후 검색·생성 실험은 [`harness/`](../../harness/program.md)(karpathy/autoresearch 구조)로 돌린다.
+   평가 하네스(`prepare.py`)는 고정하고 `rag.py`만 바꾸며, 모든 실행을 `results.tsv`에 keep/discard로 남긴다.
+
+## 2-1. 공통 요구사항
+
+- **시점별 법령**: 법령은 시행일마다 내용이 다르다. 코퍼스는 조문 판본마다 `valid_from`/`valid_to`를 가지며,
+  질문에 시점이 있으면 그 시점에 시행 중인 판본으로, 없으면 오늘 기준 현행 판본으로 답한다. 아직 시행 전이면 그 사실을 알린다.
+- **근거 링크**: 인용한 조문·판례·해석례마다 law.go.kr 퍼머링크를 준다. API(DRF) 링크나 인증키(OC)는 노출하지 않는다.
+  - 현행 조문 `https://www.law.go.kr/법령/{법령명}/제N조`
+  - 특정 판본 조문 `https://www.law.go.kr/법령/{법령명}/({공포번호},{공포일자})/제N조`
+  - 판례 `https://www.law.go.kr/LSW/precInfoP.do?precSeq={판례일련번호}`, 해석례 `.../LSW/expcInfoP.do?expcSeq={일련번호}`
+  - 주의: law.go.kr은 없는 페이지도 HTTP 200 '오류페이지'로 응답하므로, 링크 검증은 페이지 제목으로 한다.
+
+## 3. 단계
+
+| 단계 | 노트북 | 내용 | GPU | 상태 |
+|---|---|---|---|---|
+| 1 | `01_eval_set.ipynb` | 12개 핵심 질문 + 시점 질문 2개(T01·T02)와 변형 질문, 질문별 정답 근거(API로 실제 조문 확인), 필수 포함 요소, 확답 금지 기준, 평가 지표 정의 | 필요 없음 | 완료 (v0.3.0) |
+| 2 | `02_data_source_survey.ipynb` | 법령 API(191종)와 외부 소스(청년 주거 정책 등) 조사, 질문 × 소스 매핑, 수집 대상 확정 | 필요 없음 | |
+| 3 | `03_metadata_and_ingest.ipynb` | 통합 문서 스키마, raw → normalized → chunks 레이어, 수집 매니페스트(수집일·파라미터·해시) | 필요 없음 | |
+| 4 | `04_retrieval.ipynb` | 청킹 × 임베딩(KURE-v1, BGE-M3 등) × 하이브리드(BM25)·리랭커 실험, Recall@k·MRR로 평가 | RunPod | |
+| 5 | `05_vectordb.ipynb` | Qdrant 컬렉션 설계와 적재(dense+sparse, payload 인덱스), 버전 관리·alias 무중단 교체·스냅샷 | RunPod | |
+| 6 | `06_llm_selection.ipynb` | 같은 검색 결과를 넣고 LLM 후보(EXAONE-3.5 7.8B/32B, Qwen 계열 등)를 vLLM에서 비교 | RunPod | |
+| 7 | `07_langgraph_flow.ipynb` | 단순 체인을 기준선으로, 필요가 확인된 노드만 추가(범위 밖 질문 처리, 확답 방지, 외부 소스 라우팅) | RunPod | |
+| 99 | `99_report.ipynb` | 결정 근거 종합 리포트 | — | |
+
+## 4. 산출물 구조
+
+```
+notebooks/redesign/
+├── plan.md                 # 이 문서
+├── 01_eval_set.ipynb ...   # 단계별 노트북 (각각 리포트 포함)
+├── eval/
+│   ├── eval_set.json       # 평가셋 (단계 1 산출물)
+│   └── gold_texts.json     # 정답 근거 원문 캐시 (API 조회 결과)
+└── results/                # 실험 결과 (jsonl/csv)
+
+harness/                    # karpathy/autoresearch 구조의 실험 하네스
+├── program.md              # 에이전트 운영 매뉴얼 (사람이 관리)
+├── prepare.py              # 고정: 코퍼스 스냅샷(시점별 판본) + 평가 + 링크 규칙
+└── rag.py                  # 에이전트가 수정하는 유일한 파일
+```
+
+## 5. 위험 요소
+
+| 수준 | 위험 | 대응 |
+|---|---|---|
+| 높음 | 정책 질문(Q10 등)은 법령 API 범위 밖 | 외부 공공 소스를 추가한다(결정 완료). 소스는 단계 2에서 선정 |
+| 중간 | 12문항은 통계적으로 약함 | 변형 질문으로 확장하고, 핵심 12문항은 따로 보고 |
+| 중간 | API가 많아 조사 범위가 커짐 | 질문 매핑에 필요한 소스만 깊게 보고, 나머지는 목록만 작성 |
+| 중간 | 법령 개정 이력 처리가 복잡 | 현행 법령만 다루고, 시행일은 메타데이터로만 보관 |
+| 중간 | LLM 평가자 편향 | 사람 채점 샘플과 병행 |
+| 낮음 | RunPod 비용 | 단계 1~3은 로컬에서 진행. 쓰지 않을 때는 파드 중지, 볼륨만 유지 |
+
+## 6. 참고 문헌 (단계별 노트북에서 필요한 부분을 인용)
+
+- Lewis et al. (2020). *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.* NeurIPS.
+- Es et al. (2023). *RAGAS: Automated Evaluation of Retrieval Augmented Generation.* arXiv:2309.15217.
+- Pipitone & Alami (2024). *LegalBench-RAG: A Benchmark for Retrieval-Augmented Generation in the Legal Domain.* arXiv:2408.10343.
+- Chen et al. (2024). *BGE M3-Embedding.* arXiv:2402.03216.
+- Liu et al. (2023). *Lost in the Middle: How Language Models Use Long Contexts.* TACL.
+- Kwon et al. (2023). *Efficient Memory Management for LLM Serving with PagedAttention (vLLM).* SOSP.
+
+## 7. 결정 로그
+
+| 날짜 | 결정 | 근거 |
+|---|---|---|
+| 2026-09-30 | 기존 방식 기준선을 재현하지 않고 처음부터 설계 | Qdrant가 비어 있고 법령 데이터(`eflaw`)도 없어, 재현 비용에 비해 얻는 게 적음 |
+| 2026-09-30 | 외부 소스 추가 | 청년 주거비 지원 같은 정책 질문은 법령 API로 답할 수 없음 |
+| 2026-09-30 | LLM은 vLLM(OpenAI 호환)으로 직접 서빙 | 재현성, 모델 교체 비교. `app/llm/client.py`가 base_url을 지원 |
+| 2026-09-30 | 진행 순서: 평가셋 → 데이터 → 검색 → LLM → 플로우 | 변수를 분리해 원인을 구분하기 위함(§2) |
+| 2026-09-30 | 평가 키: 조문 `법령명\|제N조(의M)`, 판례 `판례\|사건번호` | LegalBench-RAG처럼 근거 단위로 매칭. 3단계 스키마의 필수 필드가 됨 |
+| 2026-09-30 | 판례 스키마에 `판시사항`·`참조조문` 필수 | Q9 정답 판례의 판결요지가 비어 있고, 핵심이 판시사항에 있음 (01 노트북 7-2) |
+| 2026-09-30 | 용어 질문은 법령용어 API 단독으로 처리하지 않음 | "차임"은 한영사전 항목("rent")만 일치. 일상용어 연계 API는 2단계에서 확인 |
+| 2026-09-30 | karpathy/autoresearch 구조의 하네스 도입 | 고정 평가 + 단일 수정 파일 + 단일 지표 + keep/discard 기록으로, 실험 이력이 그대로 포트폴리오 근거가 됨 |
+| 2026-09-30 | 하네스 dev/test 분리 (dev=변형 질문, test=원문 질문) | 소규모 평가셋에서 반복 최적화하면 과적합되므로, 에이전트는 dev만 보고 test는 사람이 마일스톤에서만 실행 |
+| 2026-09-30 | 법령 판본을 시행일 기준으로 저장 (`valid_from`/`valid_to`) | 계약갱신요구권(주임법 제6조의3, 2020.7.31 시행), 임대차 신고(거래신고법 제6조의2, 2021.6.1 시행)처럼 시점에 따라 답이 달라짐 |
