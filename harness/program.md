@@ -1,4 +1,4 @@
-# aigo harness — program.md
+# harness — program.md
 
 > 에이전트 운영 매뉴얼. [karpathy/autoresearch](https://github.com/karpathy/autoresearch)의 `program.md` 구조를 이 프로젝트(임대차 법령 RAG)에 맞춘 것이다.
 > 사람은 이 문서와 평가셋을 관리하고, 에이전트는 `rag.py`만 고치면서 지표를 올린다.
@@ -25,8 +25,8 @@ autoresearch와 달라진 점:
 1. **실행 태그를 정한다.** 날짜 기반(예: `oct1`). `harness/<tag>` 브랜치가 없어야 한다.
 2. **브랜치를 만든다.** `git checkout -b harness/<tag>`
 3. **범위 안의 파일을 읽는다.** `harness/program.md`, `harness/prepare.py`, `harness/rag.py`, 평가셋.
-4. **코퍼스를 확인한다.** `~/.cache/aigo-harness/corpus_<CORPUS_VERSION>.jsonl`이 있어야 한다. 없으면 사람에게 `uv run harness/prepare.py` 실행을 요청한다(법령 API 인증키 필요).
-   - 캐시 위치는 기본 `~/.cache/aigo-harness`다. RunPod에서는 파드를 재시작해도 남도록 네트워크 볼륨을 쓴다: `export AIGO_HARNESS_CACHE=/workspace/aigo-harness` (셸 환경 변수로 지정하며, `.env`에서는 읽지 않는다)
+4. **코퍼스를 확인한다.** `~/.cache/aigo-ai/corpus_<CORPUS_VERSION>.jsonl`이 있어야 한다. 없으면 사람에게 `uv run harness/prepare.py` 실행을 요청한다(법령 API 인증키 필요).
+   - 캐시 위치는 기본 `~/.cache/aigo-ai`다. RunPod에서는 파드를 재시작해도 남도록 네트워크 볼륨을 쓴다: `export AIGO_CACHE_DIR=/workspace/aigo-ai` (셸 환경 변수로 지정하며, `.env`에서는 읽지 않는다)
 5. **`results.tsv`를 만든다.** 헤더 한 줄만 둔다.
 6. **기준선을 먼저 돌린다.** 수정 없이 한 번 실행해 `baseline`으로 기록한다.
 
@@ -77,7 +77,7 @@ a1b2c3d	0.512821	0.401282	0.500000	1.000000	keep	baseline
 | 실험 커밋 | `exp: <무엇을 바꿨는지>` 한 줄 (예: `exp: 판례 본문 청크 제외`). discard되면 `git reset`으로 사라진다 |
 | 결과 반영 | 실험이 끝나면 keep된 변경만 모아 `feat/…` 브랜치에 Conventional Commits로 커밋하고, PR 본문에 `results.tsv` 요약을 붙인다 |
 | push · PR | **fork(origin)에만** push하고, PR도 fork `main`으로 올린다. 팀 저장소(upstream)는 fetch 전용이며 force push하지 않는다 |
-| 보안 | 코퍼스 캐시·API 응답에는 인증키가 들어 있으므로 저장소 밖(`~/.cache/aigo-harness`)에 둔다. 저장소에 넣을 때는 인증키를 제거한다 |
+| 보안 | 코퍼스 캐시·API 응답에는 인증키가 들어 있으므로 저장소 밖(`~/.cache/aigo-ai`)에 둔다. 저장소에 넣을 때는 인증키를 제거한다 |
 
 ## 단순성 기준
 
