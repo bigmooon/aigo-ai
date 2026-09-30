@@ -35,7 +35,7 @@ from dotenv import dotenv_values
 # ── 고정 상수 ─────────────────────────────────────────────
 ROOT = Path(__file__).resolve().parents[1]
 EVAL_PATH = ROOT / "notebooks" / "redesign" / "eval" / "eval_set.json"
-CACHE_DIR = Path(os.environ.get("AIGO_HARNESS_CACHE", Path.home() / ".cache" / "aigo-harness"))
+CACHE_DIR = Path(os.environ.get("AIGO_HARNESS_CACHE") or Path.home() / ".cache" / "aigo-harness")
 
 CORPUS_VERSION = "v1-seed"  # 소스 목록(SOURCES)이 바뀌면 올린다. 버전이 다른 결과끼리는 비교하지 않는다.
 TIME_BUDGET = 600           # rag.py 1회 실행(색인 + 평가) 제한 시간(초)
