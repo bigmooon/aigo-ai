@@ -26,6 +26,7 @@ autoresearch와 달라진 점:
 2. **브랜치를 만든다.** `git checkout -b harness/<tag>`
 3. **범위 안의 파일을 읽는다.** `harness/program.md`, `harness/prepare.py`, `harness/rag.py`, 평가셋.
 4. **코퍼스를 확인한다.** `~/.cache/aigo-harness/corpus_<CORPUS_VERSION>.jsonl`이 있어야 한다. 없으면 사람에게 `uv run harness/prepare.py` 실행을 요청한다(법령 API 인증키 필요).
+   - 캐시 위치는 기본 `~/.cache/aigo-harness`다. RunPod에서는 파드를 재시작해도 남도록 네트워크 볼륨을 쓴다: `export AIGO_HARNESS_CACHE=/workspace/aigo-harness` (셸 환경 변수로 지정하며, `.env`에서는 읽지 않는다)
 5. **`results.tsv`를 만든다.** 헤더 한 줄만 둔다.
 6. **기준선을 먼저 돌린다.** 수정 없이 한 번 실행해 `baseline`으로 기록한다.
 
