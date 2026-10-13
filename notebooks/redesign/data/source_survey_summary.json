@@ -1,0 +1,40 @@
+{
+  "stage": 2,
+  "status": "complete",
+  "verified_on": "2026-10-13",
+  "eval_version": "0.3.0",
+  "guide_count": 195,
+  "target_count": 99,
+  "probe_count": 89,
+  "probe_status": {
+    "0건": 45,
+    "결과 있음": 42,
+    "JSON 미지원(HTML 전용)": 2
+  },
+  "html_only_targets": [
+    "lsHistory",
+    "drlaw"
+  ],
+  "mapped_questions": 14,
+  "in_scope": 12,
+  "out_of_scope": 2,
+  "easylaw_housing_count": 22,
+  "welfare_housing_count": 7,
+  "youth_housing_cached_count": 281,
+  "checks": {
+    "inventory_unique": true,
+    "all_eval_items_mapped": true,
+    "out_of_scope_not_queried": true,
+    "external_operations_ok": true,
+    "external_details_verified": true,
+    "public_faq_link_verified": true,
+    "youth_housing_checked": true,
+    "source_decisions_saved": true
+  },
+  "next_notebook": "03_metadata_and_ingest.ipynb",
+  "remaining": [
+    "전체 수집·통합 스키마·매니페스트는 3단계",
+    "Q10의 구체적 정책 평가 ID 고정은 평가셋 관리자에게 인계"
+  ],
+  "measurement_scope": "법령/온통청년 기존 캐시 재사용; 외부 XML 응답은 fetched_at 참조; test 재실행 없음"
+}
