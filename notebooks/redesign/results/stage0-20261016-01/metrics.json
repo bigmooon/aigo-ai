@@ -1,0 +1,17 @@
+{
+  "notebook_schema_valid": true,
+  "fresh_kernel_execution": "passed",
+  "export_parity": "passed",
+  "pytest": {
+    "passed": 11,
+    "subtests_passed": 4,
+    "seconds": 52.05
+  },
+  "secret_pattern_candidates": 0,
+  "utf8_check": "passed",
+  "rag_quality": null,
+  "human_scores": null,
+  "gpu_usage": null,
+  "token_usage": null,
+  "cost": null
+}
