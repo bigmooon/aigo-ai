@@ -1,0 +1,40 @@
+{
+  "run_id": "stage0-20261016-01",
+  "stage": 0,
+  "kind": "harness_validation",
+  "question": "노트북 원본과 추출본을 안전하게 일치시킬 수 있는가?",
+  "hypothesis": "태그 기반 추출과 작은 로컬 테스트로 충분하다.",
+  "variable": "새 노트북 추출 도구",
+  "fixed_conditions": {
+    "service_changes": false,
+    "model_calls": 0,
+    "package_installs": 0
+  },
+  "primary_metric": "local_checks_pass",
+  "success_criteria": [
+    "fresh kernel execution",
+    "export parity",
+    "path and ownership guards",
+    "SSE format regression"
+  ],
+  "code_commit": "08d686b31904b90e9aa5d84e8803e03f51567cc2",
+  "dirty": true,
+  "source_sha256": {
+    "AGENTS.md": "44e0522cebbe1fc80c4a9f1252050241208b0f17f65697bd42195c20ef7e2718",
+    "harness/program.md": "709bc80139e84fd3af3f869870aca9c4ae8dd2d17ce9dab558c201baafb0a6ee",
+    "harness/notebook_tools.py": "98703468c5b5c83f4987b3acdb8ba20d00294777f8382da033d2c7ae2527b781",
+    "tests/unit/test_notebook_tools.py": "1f2a720ccad99bda36c30c0757ecf1f0b6c8e918b97450f73f722d6ba481112c",
+    "notebooks/redesign/plan.md": "0f7d92ec9a5da36015d2e2c06abb78128ffd3e1743199944dc74bf30a273df4a",
+    "notebooks/redesign/progress.md": "3ba2cc4029e802866cd9bedde94394e9d6995e2ce009319ef815828c2194d92f",
+    "notebooks/redesign/decisions.md": "68c86df817d146ec1c185ececc28f0814e1b01b6a6524c9baa48a960a702d09c",
+    "notebooks/redesign/evaluation_protocol.md": "3540b12a370c65c14e8011aee58adf48844ec8b2f899db4cca5e44c96997af16",
+    "notebooks/redesign/00_harness_and_audit.ipynb": "43fa6a71e36c8efe8973036fab0b8466134252183c191fa7d85d78dac4edf816",
+    "notebooks/redesign/results/README.md": "471c39be5347a546502b4bd9bf752ee024a088b1bcfcbca72895c0988e851fe7",
+    "notebooks/redesign/results/stage0-20261016-01/pr_draft.md": "547d198c01f6453b05aac975077035500dbf1a355c7b3e02bb5285c9c0fd4327"
+  },
+  "dataset_version": null,
+  "corpus_version": null,
+  "model": null,
+  "prompt": null,
+  "note": "소스 해시는 미커밋 파일까지 포함한다. 모델 실험이 아니며 RAG 점수는 없다."
+}
