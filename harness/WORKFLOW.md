@@ -10,7 +10,6 @@
 
 ## 승인
 - 2026-10-16 구현 요청은 단계 0(기록 체계·감사 노트북·설명 및 평가 규약) 시작 승인이다.
-- 후속 “다음 계획을 실행해줘”는 단계 1 평가 v2의 로컬 구현 시작 승인이다. 정답·채점표 검토자는 사용자다. 이 변경의 Git 반영은 별도 승인 대기다.
 - 단계별 시작 승인 → 로컬 작업·검증 → Critical Review → diff·결과·commit 메시지·PR 초안 → 승인 후 commit/push/PR.
 - merge는 별도 승인. 유료 실행도 GPU·모델·양자화·비용·최대 시간 승인을 먼저 받는다.
 - docs/git_strategy.md를 따른다. 개인 fork만 push/PR하고 upstream은 fetch 전용이다. 실제 remote를 먼저 확인한다.
@@ -22,7 +21,6 @@
 - export 태그와 export_to 메타데이터가 있는 셀만 Python으로 추출한다. 추출 파일을 직접 편집하지 않는다.
 - 처음에는 00_harness_and_audit.ipynb를 실행해 추출 도구를 만든다.
 - 이후 python harness/notebook_tools.py --check로 일치 여부를 확인한다. 승인된 수정에만 --write를 사용한다.
-- 단계 1까지 전체 확인: `python harness/notebook_tools.py --check notebooks/redesign/00_harness_and_audit.ipynb notebooks/redesign/01_eval_set.ipynb`. 인자를 생략하면 기존 00만 검사한다.
 - 기존 수동 작성 파일의 전환은 별도 검토한다. 도구로 강제 덮어쓰지 않는다.
 - prepare.py, rag.py, 기존 평가셋·서비스는 Before 자료로 보존한다. evaluation.py는 단계 1에서 작성한다.
 
