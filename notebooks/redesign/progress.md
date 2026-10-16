@@ -27,6 +27,7 @@
 - 현재 14개 원문을 읽는다. paraphrases/related_queries와 세부 evaluation 조건은 보존하지만 모두 자동 채점에 연결된 것은 아니다.
 - 최신 검증·PR 본문: results/stage1-20261016-03/. 이전 실행의 45개·테스트 수는 역사적 기록이다.
 - 정답 사용자 검토와 실제 Before 측정이 남았다. 이번 반영에서 법률 정답을 재검증하지 않았다.
+- 구현 commit: 581a67b. 개인 fork PR #6 생성·push 완료: https://github.com/bigmooon/aigo-ai/pull/6
 - merge는 별도 승인 대기.
 
 ---
