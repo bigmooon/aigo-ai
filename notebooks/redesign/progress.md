@@ -2,7 +2,7 @@
 
 ## 현재 상태
 
-- 단계 0 로컬 구현·검증 완료. 사용자가 commit·push·PR 생성을 승인했으며 반영 진행 중이다. merge는 미승인이다.
+- 단계 0 로컬 구현·검증 완료. 사용자 승인 후 commit·push·PR #5 생성을 완료했다. merge는 미승인이다.
 - 시작 승인: 사용자의 전체 계획 구현 요청 중 첫 변경 묶음(하네스·감사·설명·평가 규약).
 - 작업 시작 HEAD: 08d686b31904b90e9aa5d84e8803e03f51567cc2, 기존 브랜치 feat/data-survey.
 - 서비스·v1 하네스·기존 01/02 노트북·평가셋은 변경하지 않았다.
@@ -45,10 +45,11 @@
 - origin fetch 후 선행 10개 commit이 PR #4로 병합된 것을 확인했다: https://github.com/bigmooon/aigo-ai/pull/4
 - 최신 origin/main: b54e0c4. 기존 HEAD와 파일 내용이 같음을 확인하고 여기서 새 브랜치를 만들었다.
 - 선행 작업은 이번 PR에 포함되지 않는다. 팀 upstream에는 push/PR하지 않는다.
-- PR 본문: results/stage0-20261016-01/pr_draft.md. 생성된 PR 번호는 GitHub의 이 브랜치 PR에서 확인한다.
+- 구현 commit: 7ecee7b25858f962187cda3e2c22f1112bbd3a0e. PR: https://github.com/bigmooon/aigo-ai/pull/5 (OPEN).
+- PR 본문: results/stage0-20261016-01/pr_draft.md. 이 기록 연결은 후속 문서 commit으로 반영한다. CI 최신 상태는 PR에서 확인한다.
 
 ## 다음 행동
 
-1. 승인된 단계 0 변경을 commit·push하고 개인 fork main 대상 PR을 생성한다.
+1. PR #5의 리뷰·CI 결과를 확인한다. 단계 0 구현과 원격 반영은 완료했다.
 2. PR 체크 결과를 확인해 보고한다. merge는 별도 승인 전 수행하지 않는다.
 3. 단계 1 시작 승인 후 01 노트북의 v2 평가 규약·fixture·evaluation.py 구현과 dev/holdout 라벨 검토를 진행한다.
