@@ -1,4 +1,37 @@
-# 진행 상태 — 2026-10-16
+# 진행 상태 — 기존 질문 기반 01 노트북 통합 완료
+
+## 현재 구성
+- 사용자 승인으로 Q03을 dispute/clarify로 변경했다. 기존 세부 평가 필드도 추가 질문·불확실성 표시와 일치시켰다. Q08 및 나머지 질문은 보존했다. 현재 category 개수는 dispute 6, special_terms 2, time 2, term/policy/procedure/out_of_scope 각 1이다. 유형별 표본이 작으므로 전체 평균만으로 일반화하지 않는다.
+- 후속 요청: Q10은 policy / answer_with_external을 유지한다. answer_method=external_search, support_status=pending_tool로 주제·답변 방법·현재 지원 상태를 분리했다. 검색 도구 구현은 이번 변경에 포함하지 않았다.
+- 최신 파일에는 변형 없이 원문 14개가 있다. 이 상태를 보존했다. 최초 검증은 과거 Q10 변형 수(3개)를 가정해 실패했고, 실제 데이터에서 개수를 읽도록 수정한 후 새 커널과 평가 테스트 12개가 통과했다. 아래 45개·이전 테스트 수는 통합 당시 기록이다.
+- 후속 사용자 요청으로 eval_set.json의 persona 14개를 삭제했다. JSON 파싱 및 삭제 전후 비교로 다른 필드가 동일함을 확인했다. 참조 코드가 없어 노트북/서비스 수정은 불필요하다. 아래 통합 실행의 데이터 해시는 삭제 전 기록이다.
+- 사용자 요청에 따라 01_eval_set.ipynb 하나에 질문 확인·근거 후보·평가 코드·테스트를 통합했다.
+- eval/eval_set.json의 원문 14개·변형 31개를 직접 사용한다. 기존 질문·근거 캐시는 변경하지 않았다.
+- 별도 01_eval_v2.ipynb와 합성 60개 질문 파일은 제거했다.
+- 과거 법령 API 코드·출력·보고서는 01 부록에 당시 비실행 기록으로 보존했다. 전체 원본은 Git 이력에 있다.
+- 현재 45개는 개발용이다. holdout·40/20 개수는 현재 준비 작업의 실행 조건이 아니다.
+- 평가 Python/테스트의 원본 경로를 01_eval_set.ipynb로 변경하고 재추출했다.
+
+## 검증
+- 통합 노트북 새 커널 순차 실행 통과. 기존 질문·근거 후보 보존 검사 통과.
+- 00/01 export 일치 통과.
+- pytest tests/unit/test_evaluation.py tests/unit/test_notebook_tools.py tests/unit/test_sse.py -q -p no:cacheprovider: 22 passed, 12 subtests passed (11.25s).
+- 통합 검증 당시 기존 서비스·v1 하네스·eval_set.json·gold_texts.json은 diff 없었으며, 이후 persona 필드만 삭제했다.
+- 이번에는 API 재조회·모델 호출을 하지 않았다. 실제 품질 점수는 없다.
+- 최신 기록: results/stage1-20261016-02/. 이전 stage1-20261016-01은 통합 전 판단·검증 이력이며 현재 파일 구조를 나타내지 않는다.
+
+## 다음 행동·승인
+- 사용자 “평가셋 관련부터 커밋 및 PR을 올리자”로 commit/push/PR 승인.
+- PR #5가 병합된 것을 확인했다. 최신 개인 fork main(d21f2b6)에서 feat/eval-v2를 생성했다.
+- 최종 검사: 23 passed, 12 subtests passed (11.52s), 00/01 export 일치.
+- 현재 14개 원문을 읽는다. paraphrases/related_queries와 세부 evaluation 조건은 보존하지만 모두 자동 채점에 연결된 것은 아니다.
+- 최신 검증·PR 본문: results/stage1-20261016-03/. 이전 실행의 45개·테스트 수는 역사적 기록이다.
+- 정답 사용자 검토와 실제 Before 측정이 남았다. 이번 반영에서 법률 정답을 재검증하지 않았다.
+- merge는 별도 승인 대기.
+
+---
+
+# 단계 0 이력 — 2026-10-16
 
 ## 현재 상태
 

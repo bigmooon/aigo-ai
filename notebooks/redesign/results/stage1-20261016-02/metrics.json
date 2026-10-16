@@ -1,0 +1,14 @@
+{
+  "tests_passed": 22,
+  "subtests_passed": 12,
+  "elapsed_seconds": 11.25,
+  "fresh_kernel": "passed",
+  "exports": "match",
+  "source_questions": 14,
+  "variants": 31,
+  "development_queries": 45,
+  "holdout": 0,
+  "rag_quality": null,
+  "human_review": "pending",
+  "api_refresh": "not_run"
+}

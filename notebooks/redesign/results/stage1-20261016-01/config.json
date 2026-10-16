@@ -1,0 +1,35 @@
+{
+    "run_id":  "stage1-20261016-01",
+    "kind":  "evaluation_fixture_validation",
+    "question":  "Hit와 Recall을 분리하고 누수·미검토 점수의 잘못된 집계를 막을 수 있는가?",
+    "hypothesis":  "고정 합성 fixture와 사람 검토 게이트로 계산 오류를 재현하고 검증할 수 있다.",
+    "variable":  "평가 v2 계산 및 split 검사",
+    "fixed_conditions":  [
+                             "표준 라이브러리",
+                             "seed=42",
+                             "bootstrap=2000",
+                             "검색 k=5",
+                             "서비스·v1 보존"
+                         ],
+    "primary_metric":  "fixture assertions",
+    "success_criteria":  [
+                             "새 커널 전체 실행",
+                             "추출 일치",
+                             "fixture와 기존 SSE 통과"
+                         ],
+    "code_commit":  "705fcf4",
+    "source_sha256":  {
+                          "notebooks/redesign/01_eval_v2.ipynb":  "9d3895b1306927c48cfaa3931db8d485b3fe0af0e867c4d853c2ce620f0b78a8",
+                          "notebooks/redesign/eval/eval_v2_draft.json":  "93bfe0c2f69475be64884f9fc138383befd2123cad8425dfc9a0d2f1ea2c0d8e",
+                          "harness/evaluation.py":  "763be13c65708532e721dca02946c61bab9a9dbbe426fa554d40f75f818d4a82",
+                          "tests/unit/test_evaluation.py":  "6b4420771577bb920e616e1b0d69c7e153a4f44a4b519437c8a18f7b7308eb65"
+                      },
+    "configuration_recorded":  "after_validation",
+    "note":  "성능 비교 사전등록이 아닌 로컬 코드 검증 기록. 코드·초안은 미커밋 상태.",
+    "corpus":  null,
+    "model":  null,
+    "paid_execution":  false,
+    "human_reviewer":  "user",
+    "human_review_status":  "pending",
+    "split_independence":  "pending_semantic_review"
+}
