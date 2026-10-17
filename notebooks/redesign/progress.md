@@ -22,10 +22,13 @@
 - 개인 fork PR #5·#6은 병합 확인됨. 최신 origin/main은 6079abf이다.
 - 2026-10-17 사용자가 분리 commit·PR을 요청했다. 평가데이터: fix/eval-review (63548dc), 노트북·평가 코드: feat/eval-notebook (1571555), 하네스 기록 정리: chore/harness-records로 나누었다.
 - PR 기준은 main → fix/eval-review → feat/eval-notebook → chore/harness-records 순서다. 각 PR에는 앞선 묶음의 변경이 중복 표시되지 않도록 한다.
-- 자동 승인 검토가 외부 GitHub push를 차단했다. 사유: 정확한 목적지·코드와 평가데이터 공개 범위에 대한 명시적 승인이 필요함. 새 push·PR은 아직 실행되지 않았다. 목적지는 https://github.com/bigmooon/aigo-ai 이며 팀 upstream은 제외한다.
+- 자동 승인 검토의 최초 push 차단 후 사용자가 개인 fork 목적지와 게시 범위를 명시적으로 승인했다. 세 브랜치 push와 PR 생성을 완료했다. 팀 upstream에는 반영하지 않았다.
+- PR #7 평가데이터(1개 파일): https://github.com/bigmooon/aigo-ai/pull/7
+- PR #8 노트북·평가 코드(6개 파일): https://github.com/bigmooon/aigo-ai/pull/8 (base: fix/eval-review)
+- PR #9 하네스 기록(12개 파일): https://github.com/bigmooon/aigo-ai/pull/9 (base: feat/eval-notebook)
 - merge는 승인되지 않았다. 정리 전 상태는 backup/eval-work와 cf68dae에도 보존되어 있다.
 
 ## 다음 행동
-1. 차단된 개인 fork 게시의 명시적 승인을 받으면 분리한 세 브랜치를 push하고 템플릿으로 PR을 생성한다. CI를 확인하고 PR 링크를 기록한다.
+1. PR #7 → #8 → #9 순서로 리뷰한다. merge는 별도 승인 후 진행하며, 선행 PR 병합 후 다음 PR의 base를 main으로 변경하고 diff·CI를 다시 확인한다.
 2. 단계 2 승인 후 코퍼스·Before 설정을 고정하고 같은 질문의 검색 결과와 답변을 수집한다. 구체적 정답·검색 점수 비교에 필요한 Q01/Q09 분기와 Q12 연도·판본은 그 점수를 계산하기 전에 확정한다. 추가 질문·조건부 설명의 적절성은 현재도 평가할 수 있다.
 3. Before 답변으로 정성 채점표를 보정한다. Q10 공고 정확도는 외부 자료 확보까지 보류하며, 최종 독립 holdout은 이후 준비한다.
