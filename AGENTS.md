@@ -81,6 +81,6 @@ RAG 재설계 작업을 시작하거나 이어갈 때 아래 기록을 읽는다
 1. `harness/WORKFLOW.md` — 실험·검증·승인·Git 반영 절차
 2. `notebooks/redesign/plan.md` — 승인된 범위와 단계
 3. `notebooks/redesign/progress.md` — 현재 상태·다음 행동·승인 대기
-4. `notebooks/redesign/decisions.md`와 관련 `notebooks/redesign/results/experiments.jsonl` — 결정 이유와 실험 기록
+4. `notebooks/redesign/decisions.md`와 해당 단계 노트북 — 결정 이유와 검증·실험 기록
 
 작업 종료 시 결과·한계·다음 행동을 기록해 대화 기억 없이도 재개할 수 있게 한다.

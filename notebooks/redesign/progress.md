@@ -1,55 +1,34 @@
-# 진행 상태 — 2026-10-16
+# 현재 상태
 
-## 현재 상태
-
-- 단계 0 로컬 구현·검증 완료. 사용자 승인 후 commit·push·PR #5 생성을 완료했다. merge는 미승인이다.
-- 시작 승인: 사용자의 전체 계획 구현 요청 중 첫 변경 묶음(하네스·감사·설명·평가 규약).
-- 작업 시작 HEAD: 08d686b31904b90e9aa5d84e8803e03f51567cc2, 기존 브랜치 feat/data-survey.
-- 서비스·v1 하네스·기존 01/02 노트북·평가셋은 변경하지 않았다.
-- 평가 함수·새 60항목 데이터·모델 실험은 아직 구현/실행하지 않았다. 단계 1 이후 승인 대상이다.
-
-## 완료 내용
-
-- 후속 사용자 요청으로 네 행동 원칙과 프로젝트 규칙을 AGENTS.md에 통합하고 별도 CLAUDE.md는 제거했다. 구체적인 작업 절차는 harness/WORKFLOW.md로 이름을 바꿨다. 문서만 변경했으며 이후 사용자가 Git 반영을 승인했다.
-- 이 후속 문서 변경은 stage0-20261016-01 실행 이후의 변경이다. 해당 실행의 소스 해시와 테스트 결과는 당시 기록으로 보존한다.
-- AGENTS.md → harness/WORKFLOW.md를 통해 다음 세션의 작업 재개 경로를 연결했다.
-- 기존 02 노트북의 주석과 과거 실행 config.json의 program.md 표기는 당시 기록으로 보존한다. 현재 작업 절차는 WORKFLOW.md를 참조한다.
-- plan/decisions/evaluation_protocol/results 기록 규약을 작성했다.
-- 00 노트북에서 추출 도구와 테스트를 작성하고 Python 파일로 추출했다.
-- 그래프 상태 전달·인용·유사도 게이트·토큰 계측·SSE 위험을 정적 감사했다. 라이브러리 버그로 단정하지 않는다.
-- 한글 설명·주석을 UTF-8로 복구한 후 깨끗한 커널에서 전체 실행했다.
+## 작업
+- 2026-10-17 반영 완료: eval_set v0.4.1과 01에 수정 의견 7개·Q10 현재/보류 평가 범위를 반영했다. 원문 질문·변형·사용자 의견·수용 6개 데이터는 보존했다. Q01/Q09 분기, Q12 계약 연도, Q10 공고 미확정 검색 점수는 null이다.
+- 2026-10-17 사용자 검토 완료 확인: 14개 모두 판단·의견이 작성됨. 수용 6개(Q03·Q07·Q08·Q11·T01·T02), 수정 필요 7개(Q01·Q02·Q04·Q05·Q06·Q09·Q12), 보류 1개(Q10). 검토 완료는 정답 확정이나 수정 반영 완료를 의미하지 않는다.
+- 2026-10-17: 01의 기존 근거와 사용자 검토 섹션에 14개 질문별 공식 링크·관련 내용·적용 이유·추가 조건·판단/의견란을 추가했다. 사용자 검토용 초안이며 eval_set.json의 정답·검토 상태는 변경하지 않았다.
+- 평가 질문 원본은 eval/eval_set.json의 14개다. Q03은 dispute/clarify, Q08은 out_of_scope, Q10은 외부 검색 연결 대기다.
+- 01_eval_set.ipynb에 질문·근거 후보·평가 함수·테스트를 통합했다. paraphrases/related_queries와 세부 evaluation 조건 전체는 아직 자동 평가에 연결하지 않았다.
+- persona는 삭제했다. 과거 API 조회 기록은 01 부록에 남겼으며 현재 법률 정답 검증 결과로 사용하지 않는다.
+- 이번 정리: 코드 검증용 실행 폴더 4개와 중복 실행 목록을 제거했다. 검증 결과·실패·한계는 00/01 노트북에 합쳤다.
+- 앞으로 일반 수정은 노트북과 이 문서에 기록한다. 별도 설정·원시 결과 파일은 실제 비교 실험 때만 만든다.
 
 ## 검증
+- PR 분리 전: 00/01 새 커널 실행·저장 및 export 일치 통과. 평가·추출·SSE pytest: 23 passed, 12 subtests passed (58.40s). 추가 줄 OC 패턴·추적 .env 검사 통과.
+- 이번 최종 검증: 새 커널 순차 실행·저장, 데이터/노트북 일치, 00/01 export 일치 통과. 독립 pytest: 12 passed, 8 subtests passed (0.07s). 최초 5개 NameError는 노트북 테스트 import 3개 보완으로 해결했다. 상세 기록은 01에 있다.
+- 2026-10-17: 01 구조 검증·깨끗한 커널 순차 실행·노트북 내 12개 테스트·00/01 export 일치 확인 통과. 근거 확인의 미해결 항목은 01에 기록했다.
+- 마지막 코드 테스트: 23 passed, 12 subtests passed (11.52s). 당시 명령과 이전 결과는 01 노트북에 있다.
+- 이번 정리는 Markdown·기록을 변경했다. 노트북 구조 검증·00/01 export 일치 확인이 통과했다. 기존 설명문 한 줄 차이는 노트북 기준으로 재추출했으며 함수 동작 변경은 없다. 테스트 재실행·성능 실험은 하지 않았다.
+- 실제 RAG 성능·사용자 점수·모델 비용은 아직 측정하지 않았다.
 
-- nbformat 검증 및 NotebookClient 새 커널 전체 실행 성공.
-- `.venv/Scripts/python.exe harness/notebook_tools.py --check`: 일치.
-- `.venv/Scripts/python.exe -m pytest tests/unit/test_notebook_tools.py tests/unit/test_sse.py -q -p no:cacheprovider`: 11 passed, 4 subtests passed (52.05s).
-- `git diff --check`: 통과. 서비스·Before 자료의 diff 없음.
-- Python 실행에 로컬 sandbox 권한 제한이 있어 승인된 실행 권한으로 기존 가상환경을 사용했다. 새 패키지 설치 없음.
-- Windows Jupyter의 event-loop/로컬 TCP 경고가 있었으나 실행은 성공했다.
-- 기록: results/stage0-20261016-01/. RAG 품질 측정이 아닌 하네스 검증이다.
-
-## Critical Review와 한계
-
-- 코드 추출은 표준 라이브러리 함수 3개로 제한했다. 프레임워크나 실험 플랫폼을 추가하지 않았다.
-- check는 쓰지 않으며 전체 문법·목적지 검증 후 write한다. OS 쓰기 중 실패의 원자적 복구는 제공하지 않는다.
-- 미실행 RAG 품질·사람 점수·모델 비용을 만들어 넣지 않았다.
-- 현재 회귀 범위는 하네스와 SSE 포맷이다. 전체 서비스 통합·GPU·원격 DB는 실행하지 않았다.
-- 참고 문서와 AIGO 자체 지표 정의를 구분했다. 특히 Context Precision (AIGO)는 Ragas 순위 가중 지표와 다르다.
-
-## Git 반영
-
-- 사용자 승인: “이제 commit 및 PR을 올려주세요”. merge와 단계 1 시작은 포함하지 않는다.
-- commit 제목: `chore(harness): 노트북 기반 실험 기록과 검증 체계 정비`
-- 개인 fork: bigmooon/aigo-ai, base main, head chore/rag-harness.
-- origin fetch 후 선행 10개 commit이 PR #4로 병합된 것을 확인했다: https://github.com/bigmooon/aigo-ai/pull/4
-- 최신 origin/main: b54e0c4. 기존 HEAD와 파일 내용이 같음을 확인하고 여기서 새 브랜치를 만들었다.
-- 선행 작업은 이번 PR에 포함되지 않는다. 팀 upstream에는 push/PR하지 않는다.
-- 구현 commit: 7ecee7b25858f962187cda3e2c22f1112bbd3a0e. PR: https://github.com/bigmooon/aigo-ai/pull/5 (OPEN).
-- PR 본문: results/stage0-20261016-01/pr_draft.md. 이 기록 연결은 후속 문서 commit으로 반영한다. CI 최신 상태는 PR에서 확인한다.
+## Git·승인
+- 개인 fork PR #5·#6은 병합 확인됨. 최신 origin/main은 6079abf이다.
+- 2026-10-17 사용자가 분리 commit·PR을 요청했다. 평가데이터: fix/eval-review (63548dc), 노트북·평가 코드: feat/eval-notebook (1571555), 하네스 기록 정리: chore/harness-records로 나누었다.
+- PR 기준은 main → fix/eval-review → feat/eval-notebook → chore/harness-records 순서다. 각 PR에는 앞선 묶음의 변경이 중복 표시되지 않도록 한다.
+- 자동 승인 검토의 최초 push 차단 후 사용자가 개인 fork 목적지와 게시 범위를 명시적으로 승인했다. 세 브랜치 push와 PR 생성을 완료했다. 팀 upstream에는 반영하지 않았다.
+- PR #7 평가데이터(1개 파일): https://github.com/bigmooon/aigo-ai/pull/7
+- PR #8 노트북·평가 코드(6개 파일): https://github.com/bigmooon/aigo-ai/pull/8 (base: fix/eval-review)
+- PR #9 하네스 기록(12개 파일): https://github.com/bigmooon/aigo-ai/pull/9 (base: feat/eval-notebook)
+- merge는 승인되지 않았다. 정리 전 상태는 backup/eval-work와 cf68dae에도 보존되어 있다.
 
 ## 다음 행동
-
-1. PR #5의 리뷰·CI 결과를 확인한다. 단계 0 구현과 원격 반영은 완료했다.
-2. PR 체크 결과를 확인해 보고한다. merge는 별도 승인 전 수행하지 않는다.
-3. 단계 1 시작 승인 후 01 노트북의 v2 평가 규약·fixture·evaluation.py 구현과 dev/holdout 라벨 검토를 진행한다.
+1. PR #7 → #8 → #9 순서로 리뷰한다. merge는 별도 승인 후 진행하며, 선행 PR 병합 후 다음 PR의 base를 main으로 변경하고 diff·CI를 다시 확인한다.
+2. 단계 2 승인 후 코퍼스·Before 설정을 고정하고 같은 질문의 검색 결과와 답변을 수집한다. 구체적 정답·검색 점수 비교에 필요한 Q01/Q09 분기와 Q12 연도·판본은 그 점수를 계산하기 전에 확정한다. 추가 질문·조건부 설명의 적절성은 현재도 평가할 수 있다.
+3. Before 답변으로 정성 채점표를 보정한다. Q10 공고 정확도는 외부 자료 확보까지 보류하며, 최종 독립 holdout은 이후 준비한다.
