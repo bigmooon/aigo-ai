@@ -1,17 +1,22 @@
-# 실행 기록
+# 결과 기록
 
-experiments.jsonl은 실행 목록이다. 한 줄이 한 실행이며 정제된 정보만 저장한다.
-단계 0 검증은 모델 성능 실험이 아니다. 검색·생성 점수를 만들어 넣지 않는다.
+일반 코드 수정·노트북 실행·테스트는 별도 실행 폴더를 만들지 않습니다.
 
-1. 실행 전에 고유 run_id 폴더를 만든다. 같은 폴더를 덮어쓰지 않는다.
-2. config.json에 question, hypothesis, variable, fixed_conditions, primary_metric, success_criteria를 기록한다.
-3. 코드 commit·dirty diff 해시, 원본 노트북 해시, corpus/dataset 버전·해시, 모델 revision·양자화·프롬프트·환경·seed를 기록한다.
-4. 실행 후 metrics.json, 정제된 cases.jsonl, review.md를 저장한다. 미실행/실패 지표는 null이다.
-5. 목록에 run_id, stage, kind, status, artifact_dir, decision, code_commit, notebook_sha256를 추가한다.
-6. decisions.md와 progress.md에서 run_id를 참조한다. commit/PR 승인 후 주소를 추가하되 실행 당시 상태는 보존한다.
+- 해당 노트북: 검증 명령·결과·실패·한계.
+- progress.md: 현재 상태·다음 행동·승인 상태.
+- decisions.md: 여러 단계에 영향을 주는 결정과 이유.
+- PR 본문: .github/PULL_REQUEST_TEMPLATE.md를 따르며 초안 파일을 실행마다 보관하지 않습니다.
 
-status: running / completed / failed / interrupted. decision: pending / keep / discard.
-사람 검토 전 점수는 null이다. 실행 로그·답변을 무조건 Git에 넣지 않는다.
-holdout 정답·사용자 원문·인증키가 든 API URL·대형 자료는 Git 밖에 보관하고 정제 요약·해시·복구 방법만 기록한다.
-review.md에는 개선·회귀·미해결 사례, 모든 심각한 오류, 누수·baseline 공정성·복잡도 검토를 작성한다.
-시간·비용·호출 한도는 유료 실행 전에 승인된 값만 사용한다.
+## 실제 비교 실험을 시작할 때
+
+모델·검색·청킹 등 대안을 같은 조건에서 비교할 때만 results/<run_id>/를 만듭니다.
+필요한 파일만 저장하며 빈 템플릿을 미리 만들지 않습니다.
+
+- config.json: 비교 목적·가설·변수·고정 조건·성공 기준, 코드/데이터 버전, 모델·프롬프트·seed.
+- metrics.json: 실제 측정값·분모·사용량·비용. 미측정은 null/unknown.
+- cases.jsonl: 분석에 필요한 정제된 원시 결과가 있을 때만 저장.
+
+판단·실패·기각·Critical Review는 해당 실험 노트북에 함께 씁니다. 별도 review.md와 중복 실행 목록은 만들지 않습니다.
+사용자에게 보여줄 개선·회귀·미해결 사례도 실제 존재하는 개수만 기록합니다.
+holdout 정답·개인정보·인증키·대형 자료는 Git 밖에 두고 해시와 복구 방법만 기록합니다.
+유료 실험은 실행 전에 환경·비용·시간 한도를 승인받습니다.
