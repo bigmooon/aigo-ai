@@ -1,0 +1,80 @@
+{
+  "label": "reconstructed_before",
+  "status": "local_preparation_only",
+  "prepared_on": "2026-10-17",
+  "before_commit": "08d686b31904b90e9aa5d84e8803e03f51567cc2",
+  "preparation_base": "53fbc3f8401668a899c33f93d52baab981177d18",
+  "source_sha256": "6f1069671b0f925aa25c1a9f1f0b348d71a47e9952dece4677db00a4d4e09a73",
+  "corpus_sha256": "9e4a20659262bafe8d51fbfb7d8f72ca87820542ae9be1443b795f8adb8606b9",
+  "law_id_lookup_sha256": {
+    "8e3d296a8bf04b70164086396e6998680d61ec58.json": "ec475efad3f242484c99ec4ea292c5e68c7b1d90e0d2d9879f36d5c143ab8b0d",
+    "fc3326fe743c6696eb38d181289195ffb0ccb130.json": "f2e9df5a88f4999fc9a90e71714331ef620f23f1215faaf48e30507dd298b539",
+    "de46a042ffda109e39de80b5967ad5b1201042f5.json": "65eb0d93655b274cc7d0a262e0aa3e6f844e1cc9feeea665c83f5a17f357a89b",
+    "9a4cd2cdb7813f3a4b2939a071cf6c48e8d1b351.json": "cb8c89329544bc37fa1aeda73056402bacec69242c7af0963edfb1e8e9f82ee0",
+    "c4d036be4a17a8300e7d0833965c2fa9f44a2289.json": "b236f7bdda26cbe2d120b50b944389a2291dd881dc88ee520400e3e70ca30374",
+    "ee71aa51796379170b57f4d81459e61dcbc0e46f.json": "4f4de55c744ab1e710feb7284557154b5b21da6076d41b4254296bc64daf9c7b",
+    "f4feb25533e8f505e8e598aedf06abf05430680b.json": "c664e188c9c08baf33cf2768a42e0cb4d841f191f0871159bbb195b8e54d6592",
+    "11439543d8d28c8e2891a9115e6fd5c179262efb.json": "21d974fb304f764436dabc03f36221d228a2a82668f9c0327567d597ff2b0681"
+  },
+  "source_cache_version": "v1-seed",
+  "source_built": "2026-09-30",
+  "audit": {
+    "documents": 2494,
+    "types": {
+      "expc": 55,
+      "law": 2097,
+      "prec": 342
+    },
+    "duplicate_source_version_keys": 1,
+    "exact_duplicate_rows": 0,
+    "identity_conflicts": 0,
+    "missing_version": 0,
+    "missing_applicable_date": 55,
+    "law_alias_urls": 1711
+  },
+  "app_files_sha256": "4c4989b70b92880cc72e947d2c05b0c6d4b0deed83bea4d09c5d267280ebf75c",
+  "prompt_sha256": {
+    "GENERATOR_SYSTEM_PROMPT": "66f8c6d111154aebc1926bd03e9d8eb75dcfd3dcde2c4b31d87e3652ab70e541",
+    "UNDERSTAND_QUERY_SYSTEM_PROMPT": "6f3676663d0c46a719cc73519d232cfbd9beec040bf7444e518957e99d434552"
+  },
+  "eval_version": "0.4.1",
+  "eval_sha256": "532d98ca1046f8ea4fce27c85b7a18b8d8236869d4a4d4ee1e73ebef9379ff85",
+  "question_count": 14,
+  "settings": {
+    "EMBEDDING_MODEL": "nlpai-lab/KURE-v1",
+    "LLM_MODEL": "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct",
+    "RETRIEVAL_TOP_K": 5,
+    "CONTEXT_TOP_K": 3,
+    "RELEVANCE_THRESHOLD": 0.35
+  },
+  "llm_client": {
+    "temperature": 0.3,
+    "timeout": 90,
+    "max_retries": 0
+  },
+  "pyproject_sha256": "e320208bbff338116252ef4ad4eaecc2d1693a506a9aac778b782e9f65f7458a",
+  "lock_sha256": "9f5e49ba28677c5cddfcbcb9a4017bf81d37a7a497faadbdf480810eb6fbe1b7",
+  "local_packages": {
+    "langgraph": "1.1.6",
+    "langchain-core": "1.2.27",
+    "langchain-openai": "1.1.12",
+    "qdrant-client": "1.17.1",
+    "sentence-transformers": "5.3.0",
+    "torch": "2.7.1"
+  },
+  "pending_runtime": [
+    "generation_revision",
+    "embedding_revision",
+    "quantization",
+    "GPU",
+    "server",
+    "cost_and_time_approval"
+  ],
+  "restore": "AIGO_CACHE_DIR/before/<corpus_sha256>의 source.jsonl·corpus.jsonl·law_ids.json 사본을 별도 백업에서 복사하고 SHA-256 대조. 기본 캐시는 사용자 홈/.cache/aigo-ai. 현재 동일 로컬 디스크 사본만 만들었으며 외부 백업은 미완료.",
+  "limitations": [
+    "운영 DB 복원이 아닌 v1-seed 캐시 기반 재구성",
+    "법령 날짜·판본은 캐시에서 상속, 원문 최신성 재검증 아님",
+    "날짜 없는 해석례와 현행 별칭 URL은 시간 유효성 미확정",
+    "실제 모델 호출·색인·성능 점수 없음"
+  ]
+}
