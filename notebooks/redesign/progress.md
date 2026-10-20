@@ -120,3 +120,6 @@ Q02 실제 분류 법률해석례가 MatchValue 필터로 그대로 전달됨을
 
 ## Git 반영 승인 — 2026-10-20
 사용자가 노드 감사·분석 정리와 저장 함수 json import 수정의 commit/push/PR을 승인했다. 범위는 07, 03, harness/before.py, plan/progress/decisions 6개 파일이다. 개인 fork의 선행 변경 포함 브랜치 feat/eval-notebook을 PR base로 사용한다. origin/main 병합과 PR merge는 수행하지 않는다. 다음 작업 방향은 03 보유 데이터/메타데이터 정비 → 04 실험 색인과 검색 비교 → 05 선택한 방식의 운영 검증이며, 구체적 범위는 다음 단계에서 확정한다.
+
+## 감사 PR 게시 — 2026-10-20
+승인된 6개 파일을 8f77d6e(test(rag): 활성 노드 감사와 실제 실행 분석 정리)로 커밋하고 개인 fork feat/graph-audit에 push했다. PR #11: https://github.com/bigmooon/aigo-ai/pull/11 (base: feat/eval-notebook). PR 파일 목록 6개 일치와 mergeable 상태를 확인했다. main/upstream 반영과 merge는 하지 않았다. 최종 CI 결과는 PR Checks에서 확인하며 사람 리뷰·merge 승인 대기다. 새 데이터 작업은 03→04→05 순서로 구체적 범위를 확정한 뒤 시작한다.
