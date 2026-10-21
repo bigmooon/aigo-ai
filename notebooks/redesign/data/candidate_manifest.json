@@ -1,0 +1,25 @@
+{
+  "status": "candidate_not_indexed",
+  "source": "easylaw_housing_faq",
+  "metadata_schema": "faq-passages-v1",
+  "documents": 22,
+  "input_rows": 23,
+  "corpus_sha256": "88cec42cb89f3f550f8e0594e34630fd4c7be453068c7b3fdd8cf14b17b352d4",
+  "before_corpus_sha256": "9e4a20659262bafe8d51fbfb7d8f72ca87820542ae9be1443b795f8adb8606b9",
+  "missing_official_version": 22,
+  "missing_provided_at": 0,
+  "repeated_body_hashes": 0,
+  "inputs": {
+    "survey-external/db4ced22657585601b54e47c4cd56486aed0578b459438462bade4b11eaa6b74.xml": "4f7dd8c35d667d845925ac35c8a2aee6c451e5c00ee8b1c1552b843523a59eb8",
+    "survey-external/db4ced22657585601b54e47c4cd56486aed0578b459438462bade4b11eaa6b74.json": "7a965591e8d4868e732fe0b1236f650d55ebf2d9c2ecf33fb638ef868ec1a171",
+    "survey-external/5fe449d7c68c06dffdac1af011100d2dbddecb7c3d9b5cea08492238c7534647.xml": "8fa1ac0d13c89efb81e8b51c3d4b6754436d79f0945f82fb7d732e3726949b36",
+    "survey-external/5fe449d7c68c06dffdac1af011100d2dbddecb7c3d9b5cea08492238c7534647.json": "9820187a95c85503cee4cb741270edaa24362917a677b426ea289ef08265ff64"
+  },
+  "restore": "AIGO_CACHE_DIR/candidates/<corpus_sha256>/ 전체를 별도 백업에서 복사. faq.jsonl SHA-256 및 survey-external XML/JSON 대조. 해시만으로 복구 불가.",
+  "limitations": [
+    "캐시 범위만 준비; 현재 전체 수집 아님",
+    "내용·판본·최신성 검토 대기",
+    "색인·검색 품질 미측정",
+    "동일 로컬 디스크 사본이며 외부 백업 미완료"
+  ]
+}
